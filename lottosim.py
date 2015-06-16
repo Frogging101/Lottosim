@@ -37,7 +37,7 @@ while True:
     strNumChoices = raw_input("How many numbers should be chosen? [6]: ")
     if strNumChoices:
         try:
-            numChoices = int(strCount)
+            numChoices = int(strNumChoices)
         except(ValueError):
             print "Invalid input"
             continue
