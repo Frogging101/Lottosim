@@ -7,7 +7,12 @@ numChoices = 6
 plays = 1000
 
 def genNumbers():
-    return [random.randrange(low,high+1) for x in range(numChoices)]
+    numbers = []
+    while len(numbers) < numChoices:
+        randNum = random.randrange(low,high+1)
+        if randNum not in numbers:
+            numbers.append(randNum)
+    return numbers
 
 def compareNumbers(choices, winners):
     matches = 0
