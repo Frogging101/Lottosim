@@ -66,7 +66,7 @@ allMatches = [0] * (numChoices+1)
 for play in range(plays):
     numMatches = compareNumbers(testNumbers, winningNumbers)
     allMatches[numMatches] += 1
-    winningNumbers = genNumbers()
+    testNumbers = genNumbers()
 
 for i,matches in enumerate(allMatches):
     print str(i) + " matched: " + str(matches)
