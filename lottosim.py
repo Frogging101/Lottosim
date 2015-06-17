@@ -90,6 +90,7 @@ class Menu:
 
     @staticmethod
     def menu():
+        print '\n',
         for option in Menu.options:
             print str(option[1]) + ": " + option[0]
         print '\n',
@@ -113,9 +114,10 @@ while not done:
         again = True
         winningNumbers = genNumbers()
         while again:
-            print "Winning numbers: "+str(winningNumbers)
+            print "\nWinning numbers: "+str(winningNumbers)
             plays = getUserInt("How many plays should be run? ["+str(plays)+"]: ", plays)
 
+            print '\n',
             testNumbers = genNumbers()
 
             allMatches = [0] * (numChoices+1)
@@ -136,8 +138,9 @@ while not done:
         while again:
             winningNumbers = genNumbers()
             plays = 0
-            print "Winning numbers: "+str(winningNumbers)
+            print "\nWinning numbers: "+str(winningNumbers)
             numToWin = getUserInt("How many numbers are required to win? ["+str(numToWin)+"]: ", numToWin)
+            print '\n',
             valid = True
             if numToWin == 0:
                 print "You win by default"
@@ -166,8 +169,9 @@ while not done:
         plays = 10
         while again:
             draws = 0
-            numToWin = getUserInt("How many numbers are required to win? ["+str(numToWin)+"]: ", numToWin)
+            numToWin = getUserInt("\nHow many numbers are required to win? ["+str(numToWin)+"]: ", numToWin)
             plays = getUserInt("How many plays will you do per draw? ["+str(plays)+"]: ", plays)
+            print '\n',
             valid = True
             if numToWin == 0:
                 print "You win by default"
@@ -185,7 +189,7 @@ while not done:
                         testNumbers = genNumbers()
                         numMatches = compareNumbers(testNumbers, winningNumbers)
                         if numMatches >= numToWin:
-                            print "You won by matching "+str(numMatches)+" numbers after "+str(draws)+" draws"
+                            print "\nYou won by matching "+str(numMatches)+" numbers after "+str(draws)+" draws"
                             print "Your numbers were "+str(testNumbers)+" and the winning numbers were "+str(winningNumbers)
                             win = True
             again = getUserYN("Run again? (y/n): ", True)
