@@ -67,14 +67,17 @@ def setOptions():
     numChoices = getUserInt("How many numbers should be chosen? [6]: ", 6)
 
 class Menu:
+    #TODO: Fix this numbering thing
     SIMPLAYS = ("Simulate plays", 0)
     PUNTILWIN = ("Play until win", 1)
-    OPTIONS = ("Modify options", 2)
-    NEWSEED = ("New random seed", 3)
-    QUIT = ("Quit", 4)
+    MULTIDRAW = ("Draw until win", 2)
+    OPTIONS = ("Modify options", 3)
+    NEWSEED = ("New random seed", 4)
+    QUIT = ("Quit", 5)
 
     options = [SIMPLAYS,\
                 PUNTILWIN,\
+                MULTIDRAW,\
                 OPTIONS,\
                 NEWSEED,\
                 QUIT]
@@ -153,9 +156,40 @@ while not done:
                         print str(plays) + " plays performed"
                     if numMatches >= numToWin:
                         print "You won by matching "+str(numMatches)+" numbers after "+str(plays)+" plays"
-                        print "Your winning numbers were "+str(testNumbers)
+                        print "Your numbers were "+str(testNumbers)
                         win = True
-                again = getUserYN("Run again? (y/n): ", True)
+            again = getUserYN("Run again? (y/n): ", True)
+
+    elif selection == Menu.MULTIDRAW:
+        numToWin = 6
+        again = True
+        plays = 10
+        while again:
+            draws = 0
+            numToWin = getUserInt("How many numbers are required to win? ["+str(numToWin)+"]: ", numToWin)
+            plays = getUserInt("How many plays will you do per draw? ["+str(plays)+"]: ", plays)
+            valid = True
+            if numToWin == 0:
+                print "You win by default"
+                valid = False
+            elif numToWin > numChoices:
+                print "You're never going to win this"
+                valid = False
+
+            if valid:
+                win = False
+                while not win:
+                    winningNumbers = genNumbers()
+                    draws += 1
+                    for x in range(plays):
+                        testNumbers = genNumbers()
+                        numMatches = compareNumbers(testNumbers, winningNumbers)
+                        if numMatches >= numToWin:
+                            print "You won by matching "+str(numMatches)+" numbers after "+str(draws)+" draws"
+                            print "Your numbers were "+str(testNumbers)+" and the winning numbers were "+str(winningNumbers)
+                            win = True
+            again = getUserYN("Run again? (y/n): ", True)
+
 
     elif selection == Menu.OPTIONS:
         setOptions()
