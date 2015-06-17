@@ -140,13 +140,12 @@ while not done:
             plays = 0
             print "\nWinning numbers: "+str(winningNumbers)
             numToWin = getUserInt("How many numbers are required to win? ["+str(numToWin)+"]: ", numToWin)
-            print '\n',
             valid = True
             if numToWin == 0:
-                print "You win by default"
+                print "\nYou win by default"
                 valid = False
             elif numToWin > numChoices:
-                print "You're never going to win this"
+                print "\nYou're never going to win this"
                 valid = False
 
             if valid:
@@ -158,7 +157,7 @@ while not done:
                     if plays % 1000000 == 0:
                         print str(plays) + " plays performed"
                     if numMatches >= numToWin:
-                        print "You won by matching "+str(numMatches)+" numbers after "+str(plays)+" plays"
+                        print "\nYou won by matching "+str(numMatches)+" numbers after "+str(plays)+" plays"
                         print "Your numbers were "+str(testNumbers)
                         win = True
             again = getUserYN("Run again? (y/n): ", True)
@@ -171,13 +170,12 @@ while not done:
             draws = 0
             numToWin = getUserInt("\nHow many numbers are required to win? ["+str(numToWin)+"]: ", numToWin)
             plays = getUserInt("How many plays will you do per draw? ["+str(plays)+"]: ", plays)
-            print '\n',
             valid = True
             if numToWin == 0:
-                print "You win by default"
+                print "\nYou win by default"
                 valid = False
             elif numToWin > numChoices:
-                print "You're never going to win this"
+                print "\nYou're never going to win this"
                 valid = False
 
             if valid:
@@ -185,6 +183,10 @@ while not done:
                 while not win:
                     winningNumbers = genNumbers()
                     draws += 1
+
+                    if draws % 1000000 == 0:
+                        print str(draws) + " draws performed"
+
                     for x in range(plays):
                         testNumbers = genNumbers()
                         numMatches = compareNumbers(testNumbers, winningNumbers)
@@ -192,6 +194,7 @@ while not done:
                             print "\nYou won by matching "+str(numMatches)+" numbers after "+str(draws)+" draws"
                             print "Your numbers were "+str(testNumbers)+" and the winning numbers were "+str(winningNumbers)
                             win = True
+
             again = getUserYN("Run again? (y/n): ", True)
 
 
