@@ -6,20 +6,24 @@ high = 49
 numChoices = 6
 plays = 1000
 
-def genNumbers():
-    numbers = []
-    while len(numbers) < numChoices:
-        randNum = random.randrange(low,high+1)
-        if randNum not in numbers:
-            numbers.append(randNum)
+def genNumbers(exclude=set()):
+    numbers = set()
+    while True:
+        while len(numbers) < numChoices:
+            randNum = random.randrange(low,high+1)
+            numbers.add(randNum)
+        if numbers not in exclude:
+            break
+        else:
+            #print str(numbers)+" excluded!"
+            numbers = set()
     return numbers
 
 def compareNumbers(choices, winners):
     matches = 0
     for choice in choices:
-        for winner in winners:
-            if choice == winner:
-                matches += 1
+        if choice in winners:
+            matches += 1
     return matches
 
 def getUserInt(question, default):
@@ -108,24 +112,26 @@ done = False
 
 setOptions()
 while not done:
+    alreadyPlayed = None
     selection = Menu.menu()
     if selection == Menu.SIMPLAYS:
         plays = 1000
         again = True
         winningNumbers = genNumbers()
         while again:
+            alreadyPlayed = set()
             print "\nWinning numbers: "+str(winningNumbers)
             plays = getUserInt("How many plays should be run? ["+str(plays)+"]: ", plays)
 
             print '\n',
-            testNumbers = genNumbers()
 
             allMatches = [0] * (numChoices+1)
 
             for play in range(plays):
+                testNumbers = genNumbers(alreadyPlayed)
                 numMatches = compareNumbers(testNumbers, winningNumbers)
+                alreadyPlayed.add(frozenset(testNumbers))
                 allMatches[numMatches] += 1
-                testNumbers = genNumbers()
 
             for i,matches in enumerate(allMatches):
                 print str(i) + " matched: " + str(matches)
@@ -136,6 +142,7 @@ while not done:
         numToWin = 6
         again = True
         while again:
+            alreadyPlayed = set()
             winningNumbers = genNumbers()
             plays = 0
             print "\nWinning numbers: "+str(winningNumbers)
@@ -151,8 +158,9 @@ while not done:
             if valid:
                 win = False
                 while not win:
-                    testNumbers = genNumbers()
+                    testNumbers = genNumbers(alreadyPlayed)
                     numMatches = compareNumbers(testNumbers, winningNumbers)
+                    alreadyPlayed.add(frozenset(testNumbers))
                     plays += 1
                     if plays % 1000000 == 0:
                         print str(plays) + " plays performed"
@@ -182,14 +190,16 @@ while not done:
                 win = False
                 while not win:
                     winningNumbers = genNumbers()
+                    alreadyPlayed = set()
                     draws += 1
 
                     if draws % 1000000 == 0:
                         print str(draws) + " draws performed"
 
                     for x in range(plays):
-                        testNumbers = genNumbers()
+                        testNumbers = genNumbers(alreadyPlayed)
                         numMatches = compareNumbers(testNumbers, winningNumbers)
+                        alreadyPlayed.add(frozenset(testNumbers))
                         if numMatches >= numToWin:
                             print "\nYou won by matching "+str(numMatches)+" numbers after "+str(draws)+" draws"
                             print "Your numbers were "+str(testNumbers)+" and the winning numbers were "+str(winningNumbers)
