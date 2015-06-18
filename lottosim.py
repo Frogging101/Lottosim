@@ -16,7 +16,7 @@ def genNumbers(exclude=set()):
         while len(numbers) < numChoices:
             randNum = random.randrange(low,high+1)
             numbers.add(randNum)
-        if numbers not in exclude:
+        if hash(frozenset(numbers)) not in exclude:
             break
         else:
             #print str(numbers)+" excluded!"
@@ -159,7 +159,7 @@ while not done:
             for play in range(plays):
                 testNumbers = genChoices(alreadyPlayed)
                 match = compareNumbers(testNumbers, winningNumbers)
-                alreadyPlayed.add(frozenset(testNumbers))
+                alreadyPlayed.add(hash(frozenset(testNumbers)))
                 allMatches[match.matches][0] += 1
                 allMatches[match.matches][1] += int(match.bonusMatched)
 
@@ -167,7 +167,7 @@ while not done:
                 print str(i) + " matched: " + str(allMatches[i][0]),
                 if useBonusNumber:
                     print ', '+str(allMatches[i][1])+" with bonus"
-                print '\n',
+            print '\n',
             again = getUserYN("Run again? (y/n): ", True)
 
     elif selection == Menu.PUNTILWIN:
@@ -197,7 +197,7 @@ while not done:
                 while not win:
                     testNumbers = genChoices(alreadyPlayed)
                     match = compareNumbers(testNumbers, winningNumbers)
-                    alreadyPlayed.add(frozenset(testNumbers))
+                    alreadyPlayed.add(hash(frozenset(testNumbers)))
                     plays += 1
                     if plays % 1000000 == 0:
                         print str(plays) + " plays performed"
